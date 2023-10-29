@@ -73,13 +73,6 @@ export default function Component() {
   {`Sign in or sign up to get started.`}
 </Text>
 </Heading>
-  <Text sx={{"color": "gray.500", "fontWeight": "medium"}}>
-  {`See the source code for this demo app `}
-  <Link as={NextLink} href={`https://github.com/reflex-io/reflex-examples`} sx={{"color": "blue.500"}}>
-  {`here`}
-</Link>
-  {`.`}
-</Text>
   <Box sx={{"alignItems": "left", "bg": "white", "border": "1px solid #eaeaea", "p": 4, "maxWidth": "400px", "borderRadius": "lg"}}>
   <Input onBlur={(_e0) => addEvents([Event("state.auth_state.set_username", {value:_e0.target.value})], (_e0))} placeholder={`Username`} sx={{"mb": 4}} type={`text`}/>
   <Input onBlur={(_e0) => addEvents([Event("state.auth_state.set_password", {value:_e0.target.value})], (_e0))} placeholder={`Password`} sx={{"mb": 4}} type={`password`}/>
