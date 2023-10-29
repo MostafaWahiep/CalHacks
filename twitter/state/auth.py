@@ -22,7 +22,7 @@ class AuthState(State):
             session.add(self.user)
             session.expire_on_commit = False
             session.commit()
-            return rx.redirect("/")
+            return rx.redirect("/classify")
 
     def login(self):
         """Log in a user."""
@@ -39,5 +39,5 @@ class AuthState(State):
                 ).first()
                 if validator and validator.password == self.password:
                     self.user = validator
-                    return rx.redirect("/")
+                    return rx.redirect("/classify")
                 return rx.window_alert("Invalid username or password.")
