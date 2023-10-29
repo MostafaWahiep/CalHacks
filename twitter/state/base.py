@@ -15,6 +15,11 @@ class Follows(rx.Model, table=True):
     followed_username: str = Field(primary_key=True)
     follower_username: str = Field(primary_key=True)
 
+class Validator(rx.Model, table=True):
+    """A table of Validators."""
+
+    username: str = Field(primary_key=True)
+    password: str = Field()
 
 class User(rx.Model, table=True):
     """A table of Users."""
@@ -36,6 +41,7 @@ class State(rx.State):
     """The base state for the app."""
 
     user: Optional[User] = None
+    usertype: Optional[str] = None
 
     def logout(self):
         """Log out a user."""

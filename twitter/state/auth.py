@@ -1,7 +1,7 @@
 """The authentication state."""
 import reflex as rx
 
-from .base import State, User
+from .base import State, User, Validator
 
 
 class AuthState(State):
@@ -32,6 +32,12 @@ class AuthState(State):
             ).first()
             if user and user.password == self.password:
                 self.user = user
-                return rx.redirect("/")
+                return rx.redirect("/classify")
             else:
+                validator = session.exec(
+                    Validator.select.where(Validator.username == self.username)
+                ).first()
+                if validator and validator.password == self.password:
+                    self.user = validator
+                    return rx.redirect("/")
                 return rx.window_alert("Invalid username or password.")

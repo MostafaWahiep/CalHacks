@@ -16,17 +16,6 @@ def auth_layout(*args):
                 align_items="center",
                 text_align="center",
             ),
-            rx.text(
-                "See the source code for this demo app ",
-                rx.link(
-                    "here",
-                    href="https://github.com/reflex-io/reflex-examples",
-                    color="blue.500",
-                ),
-                ".",
-                color="gray.500",
-                font_weight="medium",
-            ),
             *args,
             border_top_radius="lg",
             box_shadow="0 4px 60px 0 rgba(0, 0, 0, 0.08), 0 4px 16px 0 rgba(0, 0, 0, 0.08)",
