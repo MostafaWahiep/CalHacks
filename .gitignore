@@ -1,5 +1,9 @@
-*.db
-*.py[cod]
-.web
-__pycache__/
+
+
+*.py[cod]
+
+.web
+
+__pycache__/
+
 reflex.db

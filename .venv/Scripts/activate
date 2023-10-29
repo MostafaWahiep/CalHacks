@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\New folder (2)\reflex-examples\twitter\.venv"
+VIRTUAL_ENV="D:\New folder (2)\CalHacks\.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
