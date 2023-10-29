@@ -79,12 +79,12 @@ export default function Component() {
   <Heading size={`sm`}>
   {`Followers`}
 </Heading>
-  {state.home_state.followers.map((klachqrc, i) => (
+  {state.home_state.followers.map((ajrztenf, i) => (
   <VStack key={i} sx={{"padding": "1em"}}>
   <HStack>
-  <Avatar name={klachqrc.follower_username} size={`sm`}/>
+  <Avatar name={ajrztenf.follower_username} size={`sm`}/>
   <Text>
-  {klachqrc.follower_username}
+  {ajrztenf.follower_username}
 </Text>
 </HStack>
 </VStack>
@@ -118,17 +118,17 @@ export default function Component() {
   <Fragment>
   {isTrue(state.home_state.tweets) ? (
   <Fragment>
-  {state.home_state.tweets.map((bijrtgqw, i) => (
+  {state.home_state.tweets.map((fwvbjueo, i) => (
   <Grid key={i} sx={{"gridTemplateColumns": "1fr 5fr", "py": 4, "gap": 1, "borderBottom": "1px solid #ededed"}}>
   <VStack>
-  <Avatar name={bijrtgqw.author} size={`sm`}/>
+  <Avatar name={fwvbjueo.author} size={`sm`}/>
 </VStack>
   <Box>
   <Text sx={{"fontWeight": "bold"}}>
-  {("@" + bijrtgqw.author)}
+  {("@" + fwvbjueo.author)}
 </Text>
   <Text sx={{"width": "100%"}}>
-  {bijrtgqw.content}
+  {fwvbjueo.content}
 </Text>
 </Box>
 </Grid>
@@ -150,15 +150,15 @@ export default function Component() {
 </Box>
   <VStack alignItems={`start`} sx={{"gap": 4, "h": "100%", "py": 4}}>
   <Input onChange={(_e0) => addEvents([Event("state.home_state.set_friend", {value:_e0.target.value})], (_e0))} placeholder={`Search users`} sx={{"width": "100%"}} type={`text`}/>
-  {state.home_state.search_users.map((yfozqmlo, i) => (
+  {state.home_state.search_users.map((odifkdpy, i) => (
   <VStack key={i} sx={{"py": 2, "width": "100%"}}>
   <HStack sx={{"width": "100%"}}>
-  <Avatar name={yfozqmlo.username} size={`sm`}/>
+  <Avatar name={odifkdpy.username} size={`sm`}/>
   <Text>
-  {yfozqmlo.username}
+  {odifkdpy.username}
 </Text>
   <Spacer/>
-  <Button onClick={(_e) => addEvents([Event("state.home_state.follow_user", {username:yfozqmlo.username})], (_e))}>
+  <Button onClick={(_e) => addEvents([Event("state.home_state.follow_user", {username:odifkdpy.username})], (_e))}>
   <AddIcon/>
 </Button>
 </HStack>
@@ -168,12 +168,12 @@ export default function Component() {
   <Heading size={`sm`}>
   {`Following`}
 </Heading>
-  {state.home_state.following.map((caltjsdm, i) => (
+  {state.home_state.following.map((cyopgjzy, i) => (
   <VStack key={i} sx={{"padding": "1em"}}>
   <HStack>
-  <Avatar name={caltjsdm.followed_username} size={`sm`}/>
+  <Avatar name={cyopgjzy.followed_username} size={`sm`}/>
   <Text>
-  {caltjsdm.followed_username}
+  {cyopgjzy.followed_username}
 </Text>
 </HStack>
 </VStack>
