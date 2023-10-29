@@ -1,7 +1,7 @@
 """Base state for Twitter example. Schema is inspired by https://drawsql.app/templates/twitter."""
 from typing import Optional
 
-from sqlmodel import Field
+from sqlmodel import Field, SQLModel, create_engine
 
 import reflex as rx
 
@@ -35,6 +35,10 @@ class Tweet(rx.Model, table=True):
     created_at: str = Field()
 
     author: str = Field()
+
+
+engine = create_engine("sqlite:///database.db")
+SQLModel.metadata.create_all(engine)
 
 
 class State(rx.State):
