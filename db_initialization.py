@@ -1,0 +1,52 @@
+import reflex as rx
+from twitter.state.base import *
+
+with rx.session() as session:
+    user1 = User(username="yes", password="yes")
+    user2 = User(username="no", password="no")
+    session.add(user1)
+    session.add(user2)
+    session.commit()
+
+    val1 = Validator(username="tam", password="tam")
+    val2 = Validator(username="tri", password="tri")
+    session.add(val1)
+    session.add(val2)
+    session.commit()
+
+    model1 = Model(name="Skin Cancer", dataset="dataset1", notebook="notebook1", model_file="model_file1", dataset_size=10000, validators=[val1, val2])
+    model2 = Model(name="Natural Images", dataset="dataset2", notebook="notebook2", model_file="model_file2", dataset_size=20000, validators=[val2])
+    session.add(model1)
+    session.add(model2)
+    session.commit()
+
+    label1 = Label(name='Actinic Keratoses', model_id=model1.id)
+    label2 = Label(name='Basal Cell Carcinoma', model_id=model1.id)
+    label3 = Label(name='Benign Keratosis', model_id=model1.id)
+    label4 = Label(name='Dermatofibroma', model_id=model1.id)
+    label5 = Label(name='Melanocytic Nevi', model_id=model1.id)
+    label6 = Label(name='Melanoma', model_id=model1.id)
+    label7 = Label(name='Vascular Lesions', model_id=model1.id)
+    session.add(label1)
+    session.add(label2)
+    session.add(label3)
+    session.add(label4)
+    session.add(label5)
+    session.add(label6)
+    session.add(label7)
+    session.commit()
+
+    label8 = Label(name='Airplane', model_id=model2.id)
+    label9 = Label(name='Car', model_id=model2.id)
+    label10 = Label(name='Cat', model_id=model2.id)
+    label11 = Label(name='Dog', model_id=model2.id)
+    label12 = Label(name='Flower', model_id=model2.id)
+    label13 = Label(name='Fruit', model_id=model2.id)
+    session.add(label8)
+    session.add(label9)
+    session.add(label10)
+    session.add(label11)
+    session.add(label12)
+    session.add(label13)
+    session.commit()
+

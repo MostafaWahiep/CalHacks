@@ -28,7 +28,9 @@ class Validator(rx.Model, table=True):
     username: str = Field()
     password: str = Field()
 
-    models: list["Model"] = Relationship(back_populates="validator", link_model=ValidatorModelLink)
+    models: list["Model"] = Relationship(back_populates="validators", link_model=ValidatorModelLink)
+    labeleds: list["Labeled"] = Relationship(back_populates="validators")
+
 
 class User(rx.Model, table=True):
     """A table of Users."""
@@ -36,12 +38,16 @@ class User(rx.Model, table=True):
     username: str = Field()
     password: str = Field()
 
+    labeleds: list["Labeled"] = Relationship(back_populates="users")
+
 class Label(rx.Model, table=True):
     """A table of Labels."""
     id : Optional[int] = Field(default=None, primary_key=True)
     name: str = Field()
     model_id: int = Field(foreign_key="model.id")
-    model: Optional["Model"] = Relationship()
+
+    models: Optional["Model"] = Relationship(back_populates="labels")
+    labeleds: list["Labeled"] = Relationship(back_populates="labels")
 
 class Model(rx.Model, table=True):
     id : Optional[int] = Field(default=None, primary_key=True)
@@ -53,9 +59,9 @@ class Model(rx.Model, table=True):
     last_update: str = Field(default=None)
     new_data_counter: int = Field(default=0)
 
-    labels: list[Label] = Relationship(back_populates="model")
-    labeled: list["Labeled"] = Relationship(back_populates="model")
-    validator: Optional[Validator] = Relationship(back_populates="models", link_model=ValidatorModelLink)
+    labels: list[Label] = Relationship(back_populates="models")
+    labeleds: list["Labeled"] = Relationship(back_populates="models")
+    validators: Optional[Validator] = Relationship(back_populates="models", link_model=ValidatorModelLink)
 
 
     def update(self):
@@ -79,17 +85,16 @@ class Labeled(rx.Model, table=True):
     user_id: int = Field(foreign_key="user.id")
     model_id: int = Field(foreign_key="model.id")
     image: str = Field()
-    expected_label_id: int = Field(foreign_key="label.id")
+    expected_label_id: int = Field(default=None, foreign_key="label.id")
     is_validated: bool = Field(default=False)
     validator_id: int = Field(default=None, foreign_key="validator.id")
-    correct_label_id: int = Field(default=None, foreign_key="label.id")
+    #correct_label_id: int = Field(default=None, foreign_key="label.id")
     is_pushed: bool = Field(default=False)
 
-    user: Optional["User"] = Relationship(back_populates="labeled")
-    model: Optional["Model"] = Relationship(back_populates="labeled")
-    expected_label: Optional["Label"] = Relationship(back_populates="labeled")
-    validator: Optional["Validator"] = Relationship(back_populates="labeled")
-    correct_label: Optional["Label"] = Relationship(back_populates="labeled")
+    users: Optional["User"] = Relationship(back_populates="labeleds")
+    models: Optional["Model"] = Relationship(back_populates="labeleds")
+    labels: Optional["Label"] = Relationship(back_populates="labeleds")
+    validators: Optional["Validator"] = Relationship(back_populates="labeleds")
 
     def __repr__(self):
         return f"<Labeled {self.id}>"
