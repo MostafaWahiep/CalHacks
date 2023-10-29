@@ -68,18 +68,14 @@ export default function Component() {
   <VStack sx={{"padding": "5em"}}>
   <VStack>
   <Select onChange={(_e0) => addEvents([Event("state.upload_state.set_option", {value:_e0.target.value})], (_e0))} placeholder={`Select an example.`} sx={{"colorSchemes": "twitter"}}>
-  <option value={`Option 1`}>
-  {`Option 1`}
+  {state.upload_state.options.map((wdtcwjnw, i) => (
+  <option key={i} value={wdtcwjnw}>
+  {wdtcwjnw}
 </option>
-  <option value={`Option 2`}>
-  {`Option 2`}
-</option>
-  <option value={`Option 3`}>
-  {`Option 3`}
-</option>
+))}
 </Select>
 </VStack>
-  <ReactDropzone accept={{"application/pdf": [".pdf"], "image/png": [".png"], "image/jpeg": [".jpg", ".jpeg"], "image/gif": [".gif"], "image/webp": [".webp"], "text/html": [".html", ".htm"]}} disabled={false} maxFiles={5} multiple={false} onDrop={e => setFiles((files) => e)}>
+  <ReactDropzone accept={{"application/pdf": [".pdf"], "image/png": [".png"], "image/jpeg": [".jpg", ".jpeg"], "image/gif": [".gif"], "image/webp": [".webp"], "text/html": [".html", ".htm"]}} disabled={false} maxFiles={1} multiple={false} onDrop={e => setFiles((files) => e)}>
   {({ getRootProps, getInputProps }) => (
     <Box sx={{"onKeyboard": true, "border": "1px dotted rgb(107,99,246)", "padding": "5em"}} {...getRootProps()}>
     <Input type={`file`} {...getInputProps()}/>
@@ -98,23 +94,26 @@ export default function Component() {
   <Button onClick={(_e) => addEvents([Event("state.upload_state.handle_upload", {files:files}, "uploadFiles")], (_e))}>
   {`Upload`}
 </Button>
-  <Button onClick={_e => setFiles((files) => [])}>
+  <Button onClick={(_e) => addEvents([Event("state.upload_state.clear_files", {})], (_e))}>
   {`Clear`}
+</Button>
+  <Button onClick={(_e) => addEvents([Event("state.upload_state.predicte", {})], (_e))}>
+  {`Submit`}
 </Button>
 </HStack>
   <HStack>
-  {files.map((f) => f.name).map((jjvuewdz, i) => (
+  {files.map((f) => f.name).map((bqnusjjq, i) => (
   <Text key={i}>
-  {jjvuewdz}
+  {bqnusjjq}
 </Text>
 ))}
 </HStack>
-  <SimpleGrid columns={[2]} spacing={`5px`}>
-  {state.upload_state.img.map((fzqnvajl, i) => (
+  <SimpleGrid columns={[2]} spacing={`5px`} sx={{"align": "center"}}>
+  {state.upload_state.img.map((bhpkslpk, i) => (
   <VStack key={i}>
-  <Image src={fzqnvajl}/>
+  <Image src={bhpkslpk}/>
   <Text>
-  {fzqnvajl}
+  {bhpkslpk}
 </Text>
 </VStack>
 ))}

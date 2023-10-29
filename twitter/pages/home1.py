@@ -1,15 +1,15 @@
 import reflex as rx
 import asyncio
-import os
+import os, random
 from typing import List
-from ..state.base import State
+from ..state.base import State, Model, Labeled
 
-options: List[str] = ["Option 1", "Option 2", "Option 3"]
 
 # Main State
 class UploadState(State):
+
     # test selection
-    option: str = "No selection yet."
+    option: str
 
     """The app state."""
     # The upload picture state ----
@@ -24,24 +24,53 @@ class UploadState(State):
         """Get the string representation of the uploaded files."""
         return "\n".join(os.listdir(rx.get_asset_path()))
 
+    @rx.var
+    def options(self) -> list[str]:
+        with rx.session() as session:
+            return [model.name for model in session.query(Model).all()]
+
     async def handle_upload(self, files: List[rx.UploadFile]):
         """Handle the file upload."""
+        self.clear_files()
         self.is_uploading = True
-
         # Iterate through the uploaded files.
         for file in files:
             upload_data = await file.read()
-            outfile = rx.get_asset_path(file.filename)
+            outfile = 'assets\\' + file.filename
 
             # save the file
-            with open(outfile, "wb") as file_object:
+            with open(outfile,  "wb") as file_object:
                 file_object.write(upload_data)
-                print("file saved")
+                await asyncio.sleep(1)
+                print(outfile)
+                print(file.filename)
 
-            self.img.append(file.filename)
+            self.img.append('\\'+file.filename)
 
         # Stop the upload.
         return UploadState.stop_upload
+    
+    def clear_files(self):
+        self.img = []
+    
+    def predicte(self):
+        if self.option == "":
+            return rx.window_alert("Please select a model")
+        elif self.img == []:
+            return rx.window_alert("Please upload a file")
+        elif self.option == "Natural Images":
+            return rx.window_alert("Sorry, this model is not available yet")
+        else:
+            with rx.session() as session:
+                model = session.exec(Model.select.where(Model.name == self.option)).first()
+                label = model.labels[random.randint(0, len(model.labels)-1)]
+                labeled = Labeled(user_id = self.user.id, model_id = model.id, image = self.img[0], expected_label_id = label.id)
+                session.add(labeled)
+                session.commit()
+                self.img = []
+                return rx.window_alert("expexted: "+label.name)
+            
+
 
     async def stop_upload(self):
         """Stop the file upload."""
@@ -91,7 +120,7 @@ def upload() -> rx.Component:
                 "image/webp": [".webp"],
                 "text/html": [".html", ".htm"],
             },
-            max_files=5,
+            max_files=1,
             disabled=False,
             on_keyboard=True,
             border=f"1px dotted {color}",
@@ -107,7 +136,11 @@ def upload() -> rx.Component:
                     ),
                     rx.button(
                         "Clear",
-                        on_click=rx.clear_selected_files,
+                        on_click=UploadState.clear_files,
+                    ),
+                    rx.button(
+                        "Submit",
+                        on_click=UploadState.predicte,
                     ),
                 ),
 
@@ -129,6 +162,7 @@ def upload() -> rx.Component:
             ),
             columns=[2],
             spacing="5px",
+            align="center",
         ),
         padding="5em",
     )
@@ -136,7 +170,7 @@ def upload() -> rx.Component:
 def select() -> rx.Component:
     return rx.vstack(
         rx.select(
-            options,
+            UploadState.options,
             placeholder="Select an example.",
             on_change=UploadState.set_option,
             color_schemes="twitter",
